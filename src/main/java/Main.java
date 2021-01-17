@@ -1,3 +1,4 @@
+import commands.Deadline;
 import commands.Quiz;
 import commands.mafia.Mafia;
 import net.dv8tion.jda.api.JDABuilder;
@@ -20,7 +21,8 @@ public class Main extends ListenerAdapter {
     public static void main(String[] args) {
         try {
             JDABuilder.createLight(token, GatewayIntent.GUILD_MESSAGES, GatewayIntent.DIRECT_MESSAGES)
-                    .addEventListeners(new Main()).addEventListeners(new Quiz()).setActivity(Activity.playing("ACCP")).build();
+                    .addEventListeners(new Main()).addEventListeners(new Quiz()).addEventListeners(new Deadline()).setActivity(Activity.listening("!help")).build();
+
         } catch (LoginException e) {
             e.printStackTrace();
         }
@@ -39,13 +41,16 @@ public class Main extends ListenerAdapter {
             });
         }
         if(msg.getContentRaw().equalsIgnoreCase("!help")){
-            channel.sendMessage("This bot provides quiz and mafia functions, check by !quiz help or !mafia help").queue();
+            channel.sendMessage("This bot provides quiz and deadline functions, check by !quiz help or !deadline help").queue();
         }
         if(msg.getContentRaw().equalsIgnoreCase("!info")){
-            channel.sendMessage("This bot has been developed by PiggyCat and Jin. The bot is designated to encourage students to study courses by providing multiple functions").queue();
+            channel.sendMessage("This bot has been developed by PiggyCat and Jin. The bot is designated to encourage students to study courses with multiple functions").queue();
         }
         if(msg.getContentRaw().equalsIgnoreCase("!hire")){
             channel.sendMessage("Hire the bot to your channel: "+"https://discord.com/api/oauth2/authorize?client_id=760115092842348564&permissions=269585488&scope=bot").queue();
+        }
+        if(msg.getContentRaw().equalsIgnoreCase("!commands")){
+            channel.sendMessage("!ping, !help, !info, !hire, !quiz, !checkAuthor, !@, !quizset, !quizdel, !add, !deadline, !deadall, !deaddel").queue();
         }
     }
 }
