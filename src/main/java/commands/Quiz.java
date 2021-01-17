@@ -6,11 +6,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
 
-public class Quiz extends ListenerAdapter {
+public class Quiz extends ListenerAdapter implements DbAdapter{
 
-    static String url = "jdbc:mysql://localhost:3306";
-    static String username = "root";
-    static String password = "cjs1214413";
     String question = "";
     @Override
     public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {

@@ -11,10 +11,7 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import javax.security.auth.login.LoginException;
 
 public class Main extends ListenerAdapter {
-    static String token = "NzYwMTE1MDkyODQyMzQ4NTY0.X3HWWA.t3kp9l4PBnVb2rAv2KZjWnNJFkU";
-    static String url = "jdbc:mysql://localhost:3306";
-    static String username = "root";
-    static String password = "cjs1214413";
+    static String token = "NzYwMTE1MDkyODQyMzQ4NTY0.X3HWWA.7xYU3azbwYmPgQYOqQLKcquDqoI";
     static Mafia mafia;
     static int count = 0;
 
