@@ -25,9 +25,10 @@ public class Main extends ListenerAdapter {
 
         } catch (LoginException e) {
             e.printStackTrace();
+
         }
     }
-
+    // onMessageReceived for main.
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
         Message msg = event.getMessage();
