@@ -11,7 +11,7 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import javax.security.auth.login.LoginException;
 
 public class Main extends ListenerAdapter {
-    static String token = "NzYwMTE1MDkyODQyMzQ4NTY0.X3HWWA.T6oH4l7HM0djwfPk_SJ7kEIkclI";
+    static String token = "NzYwMTE1MDkyODQyMzQ4NTY0.X3HWWA.t3kp9l4PBnVb2rAv2KZjWnNJFkU";
     static String url = "jdbc:mysql://localhost:3306";
     static String username = "root";
     static String password = "cjs1214413";
@@ -42,7 +42,7 @@ public class Main extends ListenerAdapter {
             });
         }
         if(msg.getContentRaw().equalsIgnoreCase("!help")){
-            channel.sendMessage("This bot provides quiz and deadline functions, check by !quiz help or !deadline help").queue();
+            channel.sendMessage("This bot provides quiz and deadline functions, check by !quiz help or !commands").queue();
         }
         if(msg.getContentRaw().equalsIgnoreCase("!info")){
             channel.sendMessage("This bot has been developed by PiggyCat and Jin. The bot is designated to encourage students to study courses with multiple functions").queue();
@@ -51,7 +51,7 @@ public class Main extends ListenerAdapter {
             channel.sendMessage("Hire the bot to your channel: "+"https://discord.com/api/oauth2/authorize?client_id=760115092842348564&permissions=269585488&scope=bot").queue();
         }
         if(msg.getContentRaw().equalsIgnoreCase("!commands")){
-            channel.sendMessage("!ping, !help, !info, !hire, !quiz, !checkAuthor, !@, !quizset, !quizdel, !add, !deadline, !deadall, !deaddel").queue();
+            channel.sendMessage("!ping, !help, !info, !hire, !quiz, !checkAuthor, !@, !quizset, !quizdel, !add, !dead init, !dead del, !dead all").queue();
         }
     }
 }

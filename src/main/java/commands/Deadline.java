@@ -14,14 +14,15 @@ public class Deadline extends ListenerAdapter implements DbAdapter{
         Connection conn;
         Statement st;
         ResultSet rs;
-        String[] message = event.getMessage().getContentRaw().split(" ");
+        String[] message = event.getMessage().getContentRaw().split(":");
+        String[] message2 = event.getMessage().getContentRaw().split(" ");
         super.onGuildMessageReceived(event);
         try {
             conn = DriverManager.getConnection(url, username, password);
             st = conn.createStatement();
             if(message[0].equalsIgnoreCase("!add")){
                 if(message.length<2) {
-                    event.getChannel().sendMessage("To add a new deadline, follow the form-> !add courseName assignmentName yyyy-mm-dd dueTime").queue();
+                    event.getChannel().sendMessage("To add a new deadline, follow the form-> !add:courseName:assignmentName:yyyy-mm-dd:dueTime").queue();
                 }
                 else{
                     try {
@@ -40,62 +41,67 @@ public class Deadline extends ListenerAdapter implements DbAdapter{
                     }
                 }
             }
-            if(message[0].equalsIgnoreCase("!deadline")){
-                Timer timer = new Timer();
-                timer.scheduleAtFixedRate(new TimerTask() {
-                    @Override
-                    public void run() {
-                        try{
-                            String sql =
-                                    "SELECT DISTINCT course, content, dueDate, dueTime FROM bot.deadline WHERE dueDate < DATE_SUB(NOW(), INTERVAL -3 DAY) ORDER BY dueDate ASC";
-                            ResultSet rs = st.executeQuery(sql);
-                            event.getChannel().sendMessage("DUE SOON!").queue();
-                            while(rs.next()){
-                                event.getChannel().sendMessage(rs.getString(1)+", "+
-                                rs.getString(2)+" is due on "+rs.getString(3)+" "+rs.getString(4)).queue();
+            if(message2[0].equalsIgnoreCase("!dead")) {
+                if(message2.length<2){
+                    event.getChannel().sendMessage("Command !dead supports 'del' and 'all'. EX) !dead all ");
+                    event.getChannel().sendMessage("!dead init is not allowed");
+                } else {
+                    if (message2[1].equalsIgnoreCase("init")) {
+                        event.getChannel().sendMessage("This command is allowed only once").queue();
+                        Timer timer = new Timer();
+                        timer.scheduleAtFixedRate(new TimerTask() {
+                            @Override
+                            public void run() {
+                                try {
+                                    String sql =
+                                            "SELECT DISTINCT course, content, dueDate, dueTime FROM bot.deadline WHERE dueDate < DATE_SUB(NOW(), INTERVAL -3 DAY) ORDER BY dueDate ASC";
+                                    ResultSet rs = st.executeQuery(sql);
+                                    event.getChannel().sendMessage("DUE SOON!").queue();
+                                    while (rs.next()) {
+                                        event.getChannel().sendMessage(rs.getString(1) + ", " +
+                                                rs.getString(2) + " is due on " + rs.getString(3) + " " + rs.getString(4)).queue();
+                                    }
+                                    sql = "DELETE FROM bot.deadline WHERE dueDate < now() - interval 1 day";
+                                    int success = st.executeUpdate(sql);
+                                    if (success == 1) {
+                                        event.getChannel().sendMessage("Expired due dates deleted!");
+                                    }
+                                } catch (SQLException throwables) {
+                                    throwables.printStackTrace();
+                                }
                             }
-                            sql = "DELETE FROM bot.deadline WHERE dueDate < now() - interval 1 day";
-                            int success = st.executeUpdate(sql);
-                            if(success==1){
-                                event.getChannel().sendMessage("Expired due dates deleted!");
+                        }, 1 * 1 * 100, 1 * 3600000 / 60);
+                    } else if (message2[1].equalsIgnoreCase("del")) {
+                        if (message2.length < 3) {
+                            event.getChannel().sendMessage("To delete a deadline, follow the form-> !deaddel yyyy-mm-dd dueTime").queue();
+                        } else {
+                            try {
+                                String sql = "DELETE FROM bot.deadline WHERE dueDate = \'" + message[1] + "\' AND dueTime = \'" + message[2] + "\'";
+                                int success = st.executeUpdate(sql);
+                                if (success == 1) {
+                                    event.getChannel().sendMessage("Successfully deleted!").queue();
+                                    conn.close();
+                                }
+                            } catch (SQLException throwables) {
+                                throwables.printStackTrace();
                             }
                         }
-                        catch (SQLException throwables){
+                    } else if (message2[1].equalsIgnoreCase("all")) {
+                        try {
+                            String sql =
+                                    "SELECT course, content, dueDate, dueTime FROM bot.deadline ORDER BY dueDate ASC LIMIT 10";
+                            rs = st.executeQuery(sql);
+                            while (rs.next()) {
+                                event.getChannel().sendMessage(rs.getString(1) + ", " +
+                                        rs.getString(2) + " is due on " + rs.getString(3) + " " + rs.getString(4)).queue();
+                            }
+                        } catch (SQLException throwables) {
                             throwables.printStackTrace();
                         }
+                    } else {
+                        event.getChannel().sendMessage("Command !dead supports 'del' and 'all'. EX) !dead all ");
+                        event.getChannel().sendMessage("!dead init is not allowed");
                     }
-                }, 1 * 1 * 100, 24 * 3600000);
-            }
-            if(message[0].equalsIgnoreCase("!deaddel")){
-                if(message.length<2) {
-                    event.getChannel().sendMessage("To delete a deadline, follow the form-> !deaddel yyyy-mm-dd dueTime").queue();
-                }
-                else{
-                    try {
-                        String sql = "DELETE FROM bot.deadline WHERE dueDate = \'" + message[1]+"\' AND dueTime = \'" + message[2]+"\'";
-                        int success = st.executeUpdate(sql);
-                        if(success == 1){
-                            event.getChannel().sendMessage("Successfully deleted!").queue();
-                            conn.close();
-                        }
-                    }
-                    catch (SQLException throwables){
-                        throwables.printStackTrace();
-                    }
-                }
-            }
-            if(message[0].equalsIgnoreCase("!deadall")){
-                try{
-                    String sql =
-                            "SELECT course, content, dueDate, dueTime FROM bot.deadline ORDER BY dueDate ASC LIMIT 10";
-                    rs = st.executeQuery(sql);
-                    while(rs.next()){
-                        event.getChannel().sendMessage(rs.getString(1)+", "+
-                                rs.getString(2)+" is due on "+rs.getString(3)+" "+rs.getString(4)).queue();
-                    }
-                }
-                catch (SQLException throwables){
-                    throwables.printStackTrace();
                 }
             }
         } catch (SQLException e) {
