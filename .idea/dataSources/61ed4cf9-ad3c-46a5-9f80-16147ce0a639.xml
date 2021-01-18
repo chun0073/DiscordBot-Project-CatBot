@@ -959,66 +959,70 @@ SELECT|sys.sys_config
       <Position>6</Position>
       <DataType>varchar(45)|0s</DataType>
     </column>
-    <key id="297" parent="287" name="PRIMARY">
+    <column id="297" parent="287" name="levels">
+      <Position>7</Position>
+      <DataType>varchar(25)|0s</DataType>
+    </column>
+    <key id="298" parent="287" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="298" parent="288" name="id">
+    <column id="299" parent="288" name="id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="299" parent="288" name="course">
+    <column id="300" parent="288" name="course">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
     </column>
-    <column id="300" parent="288" name="content">
+    <column id="301" parent="288" name="content">
       <Position>3</Position>
       <DataType>longtext|0s</DataType>
     </column>
-    <column id="301" parent="288" name="Answer">
+    <column id="302" parent="288" name="Answer">
       <Position>4</Position>
       <DataType>varchar(45)|0s</DataType>
     </column>
-    <column id="302" parent="288" name="Author">
+    <column id="303" parent="288" name="Author">
       <Position>5</Position>
       <DataType>varchar(45)|0s</DataType>
     </column>
-    <key id="303" parent="288" name="PRIMARY">
+    <key id="304" parent="288" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="304" parent="289" name="userId">
+    <column id="305" parent="289" name="userId">
       <Position>1</Position>
       <DataType>varchar(25)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="305" parent="289" name="userName">
+    <column id="306" parent="289" name="userName">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
     </column>
-    <column id="306" parent="289" name="quizPoint">
+    <column id="307" parent="289" name="quizPoint">
       <Position>3</Position>
       <DataType>int|0s</DataType>
       <DefaultExpression>0</DefaultExpression>
     </column>
-    <key id="307" parent="289" name="PRIMARY">
+    <key id="308" parent="289" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>userId</ColNames>
       <Primary>1</Primary>
     </key>
-    <argument id="308" parent="290" name="pUserName">
+    <argument id="309" parent="290" name="pUserName">
       <Position>1</Position>
       <DataType>varchar(40)|0s</DataType>
     </argument>
-    <argument id="309" parent="290" name="pUserId">
+    <argument id="310" parent="290" name="pUserId">
       <Position>2</Position>
       <DataType>varchar(25)|0s</DataType>
     </argument>
-    <argument id="310" parent="290" name="pUserPoint">
+    <argument id="311" parent="290" name="pUserPoint">
       <Position>3</Position>
       <ArgumentDirection>O</ArgumentDirection>
       <DataType>int|0s</DataType>
