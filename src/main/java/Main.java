@@ -11,7 +11,7 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import javax.security.auth.login.LoginException;
 
 public class Main extends ListenerAdapter {
-    static String token = "NzYwMTE1MDkyODQyMzQ4NTY0.X3HWWA.HKMmxhc1PbbGoErR95tzOrj6ZDo";
+    static String token = ".";
     static Mafia mafia;
     static int count = 0;
 
